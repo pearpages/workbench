@@ -1,7 +1,7 @@
 # workbench
 
 Reusable setup for **Backlog**: one GitHub Project that tracks issues across all
-your repositories, with shared labels, priority and size fields, and issue templates.
+your repositories, with shared labels (type, priority, area) and issue templates.
 
 Keeping a `tasks.md` in every repo scatters work and gives no overview. This repo replaces
 those files with GitHub Issues on a single board. It also migrates the existing `tasks.md`

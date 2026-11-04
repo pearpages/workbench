@@ -3,7 +3,7 @@
 workbench is the reusable setup for **Backlog**, a GitHub Project owned by a user
 (`@me`) that tracks work across repositories and replaces each repo's `tasks.md` with GitHub
 Issues. It holds labels, issue templates and small idempotent scripts (driven by the `gh` CLI)
-that create the project and its fields, sync labels to selected repos, and migrate `tasks.md`
+that create the project, sync labels to selected repos, and migrate `tasks.md`
 items into issues. It is published as `pearpages/workbench` so others can copy it.
 
 ## Project documents — read before working
@@ -13,7 +13,7 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
 | [principles.md](principles.md) | The rules every change must follow |
 | [architecture.md](architecture.md) | How the project is built: modules, data flow, build, deploy |
 | [decisions.md](decisions.md) | Index of ADRs in `docs/adr/`: why each choice was made |
-| [tasks.md](tasks.md) | Open work and the dated log of what was done |
+| [Issues](https://github.com/pearpages/workbench/issues) | Open work, also on the [Backlog](https://github.com/users/pearpages/projects/3) board. Closed issues and git are the record of what was done |
 | [security.md](security.md) | Threat surface, secrets, dependency policy, how to report a vulnerability |
 | [LICENSE](LICENSE) | MIT |
 
@@ -23,8 +23,9 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
 
 1. **Read `principles.md` before changing code or docs.** If a change would break a
    principle, stop and ask; don't work around it.
-2. **Every change updates `tasks.md`**: tick or add Open items, and add a dated line at the
-   top of Done.
+2. **Work is tracked in GitHub Issues**, not in a file. New work → `gh issue create` with
+   `type:*`, `priority:*` and `area:*` labels. Finished work → close the issue from the commit
+   or PR (`Fixes #N`).
 3. **A structural or behavioural change updates `architecture.md` in the same commit**, and
    the README too when users can see it.
 4. **A choice between real alternatives** (API shape, dependency, convention, process) gets
@@ -45,8 +46,7 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
 - `npm run typecheck`: type-check `scripts/` once (no watch).
 - `npx tsx scripts/<name>.ts`: dry run (prints what it would do). Add `--apply` to write to
   GitHub, and only after the user confirms (P2).
-- `npx tsx scripts/setup-project.ts [--apply]`: find or create the Backlog project and its
-  Priority and Size fields.
+- `npx tsx scripts/setup-project.ts [--apply]`: find or create the Backlog project.
 - `npx tsx scripts/sync-labels.ts [--apply]`: apply `labels.yml` to every repo in
   `repos.yml` (create/update only, never delete).
 - `npx tsx scripts/migrate-tasks.ts [--only <repo>] [--apply]`: turn each repo's open

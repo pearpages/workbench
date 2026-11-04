@@ -12,7 +12,8 @@ accepted.
 | # | Decision | Status | Date |
 |---|---|---|---|
 | [0001](docs/adr/0001-project-knowledge-files.md) | Project knowledge lives in principles, architecture, decisions, tasks and security | Accepted | 2026-11-04 |
-| [0002](docs/adr/0002-github-issues-replace-tasks-md.md) | A cross-repo GitHub Project with Issues replaces per-repo tasks.md | Proposed | 2026-11-04 |
+| [0002](docs/adr/0002-github-issues-replace-tasks-md.md) | A cross-repo GitHub Project with Issues replaces per-repo tasks.md | Accepted | 2026-11-04 |
+| [0003](docs/adr/0003-priority-in-labels.md) | Priority is a label on the issue; the board has no custom fields | Accepted | 2026-11-04 |
 
 ## Format
 

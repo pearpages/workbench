@@ -3,7 +3,7 @@
 How workbench is built. It explains *how* things work. The rules that follow from it are in
 [principles.md](principles.md), the reasons for each choice in
 [decisions.md](decisions.md), the security surface in [security.md](security.md), and open
-work in [tasks.md](tasks.md). When code and this file disagree, the code is right and this
+work in [GitHub Issues](https://github.com/pearpages/workbench/issues). When code and this file disagree, the code is right and this
 file is a bug.
 
 ## Shape
@@ -21,14 +21,15 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 | `repos.yml` | The repos Backlog tracks (picked from `gh repo list --limit 100`) |
 | `.github/ISSUE_TEMPLATE/{bug,feature,chore}.yml` | Issue forms to copy into the tracked repos |
 | `scripts/lib.ts` | Shared helpers: `gh` calls with argument arrays (no shell), the `project` scope check, and dry run unless `--apply` |
-| `scripts/setup-project.ts` | Find or create Backlog and its Priority (H/M/L) and Size (S/M/L) fields |
+| `scripts/setup-project.ts` | Find or create Backlog (no custom fields: priority is a label, ADR 0003) |
 | `scripts/sync-labels.ts` | Apply `labels.yml` to every repo in `repos.yml` (create/update, never delete) |
 | `scripts/migrate-tasks.ts` | `tasks.md` → issues: each unchecked item outside Done becomes an issue with a hidden `<!-- backlog: tasks.md#hash -->` marker, so re-runs skip it |
 
 ## Data flow
 
 1. **Project setup:** `gh project` finds or creates the project "Backlog" (owner `@me`;
-   private by default — the script never changes visibility) and its Priority and Size fields. Status comes built in.
+   private by default — the script never changes visibility). It adds no custom fields:
+   priority is a `priority:*` label on the issue (ADR 0003). Status comes built in.
 2. **Labels:** `sync-labels` reads `labels.yml` and `repos.yml`, then creates or updates each
    label in each repo.
 3. **Migration:** for each repo in `repos.yml`, the script reads `tasks.md`, turns each item

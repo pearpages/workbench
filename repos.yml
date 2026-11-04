@@ -1,13 +1,12 @@
 # Repos tracked by the Backlog project. Read by scripts/sync-labels.ts and the tasks.md migration.
 # Picked on 2026-11-04 from `gh repo list --limit 100`: every active, non-fork repo with a tasks.md.
+# bicing and foundry are left out: foundry's driver still runs on tasks.md (foundry#5).
 
-- pearpages/bicing
 - pearpages/cerdanya
 - pearpages/cv
 - pearpages/ficcio
 - pearpages/flashcards
 - pearpages/footfall
-- pearpages/foundry
 - pearpages/fourpass
 - pearpages/futbol-manager
 - pearpages/heatmap
