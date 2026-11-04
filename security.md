@@ -8,8 +8,8 @@ permission).
 ## Reporting a vulnerability
 
 Use a GitHub private security advisory on `pearpages/workbench` (Security → Report a
-vulnerability). Never open a public issue for an unfixed vulnerability. TODO: enable private
-vulnerability reporting once the repo exists.
+vulnerability; private vulnerability reporting is on). Never open a public issue for an unfixed
+vulnerability.
 
 ## Surface
 
