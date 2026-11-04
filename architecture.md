@@ -17,7 +17,7 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 
 | Path | Owns |
 |---|---|
-| `labels.yml` | Label set: `type:bug\|feature\|chore\|docs`, `priority:high\|med\|low`, `area:ui\|api\|infra\|dx` |
+| `labels.yml` | Label set: `type:bug\|feature\|chore\|docs\|spike`, `priority:high\|med\|low`, `area:ui\|api\|infra\|dx` |
 | `repos.yml` | The repos Backlog tracks (picked from `gh repo list --limit 100`) |
 | `.github/ISSUE_TEMPLATE/{bug,feature,chore}.yml` | Issue forms to copy into the tracked repos |
 | `scripts/lib.ts` | Shared helpers: `gh` calls with argument arrays (no shell, two retries on a GitHub 502/503/504), the `project` scope check, and dry run unless `--apply` |

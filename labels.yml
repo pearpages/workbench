@@ -1,5 +1,5 @@
 # Labels synced to every repo in repos.yml by scripts/sync-labels.ts.
-# Colors are hex without '#'.
+# Colors are hex without '#'. Quote one that YAML could read as a number ("5319e7").
 
 - name: type:bug
   color: d73a4a
@@ -13,6 +13,9 @@
 - name: type:docs
   color: 0075ca
   description: Documentation only
+- name: type:spike
+  color: "5319e7"
+  description: Time-boxed investigation that ends in a decision or new issues
 
 - name: priority:high
   color: b60205

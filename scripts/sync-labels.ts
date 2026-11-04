@@ -11,6 +11,13 @@ const wanted = readYaml<Label[]>("labels.yml");
 const repos = readYaml<string[]>("repos.yml");
 let changes = 0;
 
+for (const label of wanted) {
+  if (typeof label.color !== "string") {
+    console.error(`labels.yml: quote the color of ${label.name} (YAML read it as a number).`);
+    process.exit(1);
+  }
+}
+
 for (const repo of repos) {
   const existing = ghJson<Label[]>([
     "label", "list", "--repo", repo, "--limit", "200", "--json", "name,color,description",
