@@ -18,8 +18,9 @@ vulnerability reporting once the repo exists.
   P2 (dry run plus confirmation) is the main guard.
 - **Untrusted input:** the `tasks.md` contents become issue titles and bodies. Pass them to
   `gh` as arguments or files, never by interpolating them into a shell string.
-- **Public by design:** the Backlog project and this repo are public. Anything migrated
-  from a private repo's `tasks.md` could show up on a public board, so check the dry run
+- **Visibility:** this repo is public; the Backlog project is private, and the scripts never
+  change that. If you make the project public, anything migrated from a private repo's
+  `tasks.md` shows up on a public board, so check the dry run
   for private details before you confirm.
 - No server, no endpoints, and no stored data.
 
@@ -32,10 +33,11 @@ vulnerability reporting once the repo exists.
 
 ## Dependencies
 
-Keep them minimal: `tsx` and a YAML parser at most. Commit a lockfile when `package.json`
-lands, and check with `npm audit` before publishing.
+Keep them minimal. The only runtime dependency is `yaml`. Dev dependencies are `tsx`,
+`typescript` and `@types/node`. `package-lock.json` is committed, and `npm audit` runs
+before publishing.
 
 ## Known risks
 
-- The public board can expose items from private repos (see Surface). This is accepted, and
-  reviewing the dry run is the mitigation.
+- Making the project public would expose items from private repos (see Surface). It stays
+  private for now; reviewing the dry run is the mitigation if that changes.

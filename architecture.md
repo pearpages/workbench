@@ -11,7 +11,7 @@ file is a bug.
 workbench is a config and scripts repo, not an app. It ships nothing; people copy it.
 The scripts are TypeScript run with `tsx` (or bash) and call the `gh` CLI. They configure
 a user-level GitHub Project called **Backlog** and the repositories it tracks.
-Status: planned. Only the knowledge files exist so far.
+Status: labels, issue templates and the shared script helpers exist; the scripts are next.
 
 ## Modules
 
@@ -20,12 +20,15 @@ Status: planned. Only the knowledge files exist so far.
 | `labels.yml` | Label set: `type:bug\|feature\|chore\|docs`, `priority:high\|med\|low`, `area:ui\|api\|infra\|dx` |
 | `repos.yml` | The repos Backlog tracks (picked from `gh repo list --limit 100`) |
 | `.github/ISSUE_TEMPLATE/{bug,feature,chore}.yml` | Issue forms to copy into the tracked repos |
-| `scripts/` | Project setup (Backlog + Priority H/M/L and Size S/M/L single-select fields), `sync-labels`, and the `tasks.md` → issues migration |
+| `scripts/lib.ts` | Shared helpers: `gh` calls with argument arrays (no shell), the `project` scope check, and dry run unless `--apply` |
+| `scripts/setup-project.ts` | Find or create Backlog and its Priority (H/M/L) and Size (S/M/L) fields |
+| `scripts/sync-labels.ts` | Apply `labels.yml` to every repo in `repos.yml` (create/update, never delete) |
+| `scripts/migrate-tasks.ts` | `tasks.md` → issues: each unchecked item outside Done becomes an issue with a hidden `<!-- backlog: tasks.md#hash -->` marker, so re-runs skip it |
 
 ## Data flow
 
-1. **Project setup:** `gh project` finds or creates the public project "Backlog" (owner
-   `@me`) and its Priority and Size fields. Status comes built in.
+1. **Project setup:** `gh project` finds or creates the project "Backlog" (owner `@me`;
+   private by default — the script never changes visibility) and its Priority and Size fields. Status comes built in.
 2. **Labels:** `sync-labels` reads `labels.yml` and `repos.yml`, then creates or updates each
    label in each repo.
 3. **Migration:** for each repo in `repos.yml`, the script reads `tasks.md`, turns each item
@@ -39,6 +42,7 @@ State lives on GitHub only. The repo itself holds only config.
 
 ## Build, test, deploy
 
-No build step. Scripts run with `npx tsx scripts/<name>.ts` (TODO: confirm once written).
+No build step. Node is pinned in `mise.toml`. Scripts run with `npx tsx scripts/<name>.ts`
+(a dry run), or with `--apply` to write. `npm run typecheck` runs `tsc --noEmit`.
 Testing is a dry run followed by a second run that must be a no-op (P1). The repo is
 published to `github.com/pearpages/workbench`; there is no CI yet.

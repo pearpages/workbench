@@ -1,0 +1,19 @@
+{
+  "name": "workbench",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Reusable setup for Backlog: a cross-repo GitHub Project that replaces per-repo tasks.md files with Issues.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1"
+  }
+}

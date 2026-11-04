@@ -10,7 +10,7 @@ That gives no cross-repo view, no board or priorities, and nothing to link from 
 
 ## Decision
 
-A public GitHub Project owned by the user, called **Backlog**, tracks work in every
+A private GitHub Project owned by the user, called **Backlog**, tracks work in every
 selected repo as GitHub Issues. It uses shared labels, a Priority field (High/Med/Low) and a
 Size field (S/M/L). Open `tasks.md` items are migrated into issues. Once a repo's items are
 migrated, its `tasks.md` can be deleted.

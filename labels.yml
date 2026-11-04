@@ -1,0 +1,38 @@
+# Labels synced to every repo in repos.yml by scripts/sync-labels.ts.
+# Colors are hex without '#'.
+
+- name: type:bug
+  color: d73a4a
+  description: Something is broken
+- name: type:feature
+  color: a2eeef
+  description: New capability
+- name: type:chore
+  color: cfd3d7
+  description: Maintenance, tooling, dependencies
+- name: type:docs
+  color: 0075ca
+  description: Documentation only
+
+- name: priority:high
+  color: b60205
+  description: Do next
+- name: priority:med
+  color: fbca04
+  description: Soon
+- name: priority:low
+  color: 0e8a16
+  description: Someday
+
+- name: area:ui
+  color: c5def5
+  description: User interface
+- name: area:api
+  color: bfdadc
+  description: API and backend
+- name: area:infra
+  color: d4c5f9
+  description: CI, hosting, deploy
+- name: area:dx
+  color: fef2c0
+  description: Developer experience

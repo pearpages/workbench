@@ -1,6 +1,6 @@
 # workbench
 
-workbench is the reusable setup for **Backlog**, a public GitHub Project owned by a user
+workbench is the reusable setup for **Backlog**, a GitHub Project owned by a user
 (`@me`) that tracks work across repositories and replaces each repo's `tasks.md` with GitHub
 Issues. It holds labels, issue templates and small idempotent scripts (driven by the `gh` CLI)
 that create the project and its fields, sync labels to selected repos, and migrate `tasks.md`
@@ -41,9 +41,18 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
 
 - `gh auth status`: check you are logged in and that the token has the `project` scope. If
   it doesn't, run `gh auth refresh -s project`.
-- TODO: list the script commands (dry run and apply) once `scripts/` exists.
+- `npm install`: install `tsx`, `typescript` and `yaml` (Node is pinned in `mise.toml`).
+- `npm run typecheck`: type-check `scripts/` once (no watch).
+- `npx tsx scripts/<name>.ts`: dry run (prints what it would do). Add `--apply` to write to
+  GitHub, and only after the user confirms (P2).
+- `npx tsx scripts/setup-project.ts [--apply]`: find or create the Backlog project and its
+  Priority and Size fields.
+- `npx tsx scripts/sync-labels.ts [--apply]`: apply `labels.yml` to every repo in
+  `repos.yml` (create/update only, never delete).
+- `npx tsx scripts/migrate-tasks.ts [--only <repo>] [--apply]`: turn each repo's open
+  `tasks.md` items into issues and add them to Backlog.
 
 ## Pitfalls that have bitten before
 
-- `node` fails with "No version is set for shim" → mise has no global Node version → pin one
-  with `mise use node@<version>` in this repo (see tasks.md).
+- `node` fails with "No version is set for shim" → mise has no global Node version → this
+  repo pins it in `mise.toml`; run `mise install`.
