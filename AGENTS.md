@@ -51,6 +51,8 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
   `repos.yml` (create/update only, never delete).
 - `npx tsx scripts/migrate-tasks.ts [--only <repo>] [--apply]`: turn each repo's open
   `tasks.md` items into issues and add them to Backlog.
+- `npx tsx scripts/add-to-board.ts [--apply]`: put every open issue from `repos.yml` on
+  Backlog (the sweep for repos without auto-add). Run it at the end of a session.
 
 ## Pitfalls that have bitten before
 

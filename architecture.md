@@ -20,10 +20,11 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 | `labels.yml` | Label set: `type:bug\|feature\|chore\|docs`, `priority:high\|med\|low`, `area:ui\|api\|infra\|dx` |
 | `repos.yml` | The repos Backlog tracks (picked from `gh repo list --limit 100`) |
 | `.github/ISSUE_TEMPLATE/{bug,feature,chore}.yml` | Issue forms to copy into the tracked repos |
-| `scripts/lib.ts` | Shared helpers: `gh` calls with argument arrays (no shell), the `project` scope check, and dry run unless `--apply` |
+| `scripts/lib.ts` | Shared helpers: `gh` calls with argument arrays (no shell, two retries on a GitHub 502/503/504), the `project` scope check, and dry run unless `--apply` |
 | `scripts/setup-project.ts` | Find or create Backlog (no custom fields: priority is a label, ADR 0003) |
 | `scripts/sync-labels.ts` | Apply `labels.yml` to every repo in `repos.yml` (create/update, never delete) |
 | `scripts/migrate-tasks.ts` | `tasks.md` → issues: each unchecked item outside Done becomes an issue with a hidden `<!-- backlog: tasks.md#hash -->` marker, so re-runs skip it |
+| `scripts/add-to-board.ts` | The sweep: puts every open issue from `repos.yml` on Backlog, for repos without an auto-add workflow |
 
 ## Data flow
 
@@ -38,6 +39,11 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 4. **Manual (UI only, no API):** views (a Board by Status, a Table by Repository, and a
    "Now" view of In Progress items labelled `priority:high`) and workflows (auto-add new
    issues; set Done when an issue is closed or its PR is merged). The README lists these steps.
+   GitHub allows 5 auto-add workflows on this plan: fourpass, futbol-manager, pulp, modals and
+   xray have one.
+5. **Sweep:** `add-to-board` lists the open issues of every repo in `repos.yml` and adds the
+   ones that are not on Backlog yet. It covers the other repos, and issues opened with
+   `gh issue create`. Run it at the end of a session.
 
 State lives on GitHub only. The repo itself holds only config.
 

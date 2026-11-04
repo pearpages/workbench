@@ -7,9 +7,17 @@ import { parse } from "yaml";
 /** True unless the script was run with --apply (P2: dry run by default). */
 export const dryRun = !process.argv.includes("--apply");
 
-/** Run `gh` and return its stdout. */
+/** Run `gh` and return its stdout. Retries twice when GitHub answers 502/503/504. */
 export function gh(args: string[]): string {
-  return execFileSync("gh", args, { encoding: "utf8" });
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return execFileSync("gh", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    } catch (error) {
+      const stderr = String((error as { stderr?: unknown }).stderr ?? "");
+      if (attempt > 2 || !/\b50[234]\b/.test(stderr)) throw error;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 5000 * attempt);
+    }
+  }
 }
 
 /** Run `gh` and parse its JSON stdout. */
