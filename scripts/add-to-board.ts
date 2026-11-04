@@ -3,7 +3,7 @@
 // Idempotent (P1): issues already on the board are skipped.
 //   npx tsx scripts/add-to-board.ts           # dry run
 //   npx tsx scripts/add-to-board.ts --apply   # write to GitHub
-import { ghJson, readYaml, requireProjectScope, write } from "./lib.ts";
+import { addToProject, dryRun, ghJson, readYaml, requireProjectScope } from "./lib.ts";
 
 const OWNER = "@me";
 const PROJECT = "Backlog";
@@ -32,9 +32,8 @@ for (const repo of readYaml<string[]>("repos.yml")) {
   ]);
   for (const issue of issues.filter((i) => !onBoard.has(i.url))) {
     added++;
-    write(`Add ${issue.url} (${issue.title})`, [
-      "project", "item-add", num, "--owner", OWNER, "--url", issue.url,
-    ]);
+    console.log(`${dryRun ? "[dry run] " : ""}Add ${issue.url} (${issue.title})`);
+    if (!dryRun) addToProject(num, OWNER, issue.url);
   }
 }
 

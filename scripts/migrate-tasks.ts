@@ -6,7 +6,7 @@
 //   npx tsx scripts/migrate-tasks.ts --only xray      # dry run, one repo
 //   npx tsx scripts/migrate-tasks.ts --apply          # write to GitHub
 import { createHash } from "node:crypto";
-import { dryRun, gh, ghJson, readYaml, requireProjectScope } from "./lib.ts";
+import { addToProject, dryRun, gh, ghJson, readYaml, requireProjectScope } from "./lib.ts";
 
 const OWNER = "@me";
 const PROJECT = "Backlog";
@@ -117,7 +117,7 @@ for (const repo of repos) {
     if (existing) {
       skipped++;
       console.log(`  ✓ exists  ${t.title}`);
-      if (!dryRun) gh(["project", "item-add", num, "--owner", OWNER, "--url", existing.url]);
+      if (!dryRun) addToProject(num, OWNER, existing.url);
       continue;
     }
     created++;
@@ -130,7 +130,7 @@ for (const repo of repos) {
       "issue", "create", "--repo", repo, "--title", t.title, "--body", t.body,
       ...t.labels.flatMap((l) => ["--label", l]),
     ]).trim();
-    gh(["project", "item-add", num, "--owner", OWNER, "--url", url]);
+    addToProject(num, OWNER, url);
     console.log(`  + ${line} → ${url}`);
     sleep(1000); // stay under GitHub's content-creation rate limit
   }

@@ -36,6 +36,16 @@ export function requireProjectScope(): void {
   }
 }
 
+/** Add an issue to a project. An auto-add workflow may have added it already: that is fine. */
+export function addToProject(project: string, owner: string, url: string): void {
+  try {
+    gh(["project", "item-add", project, "--owner", owner, "--url", url]);
+  } catch (error) {
+    const stderr = String((error as { stderr?: unknown }).stderr ?? "");
+    if (!stderr.includes("already exists in this project")) throw error;
+  }
+}
+
 /** Read and parse a YAML file. */
 export function readYaml<T>(path: string): T {
   return parse(readFileSync(path, "utf8")) as T;
