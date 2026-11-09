@@ -5,6 +5,7 @@
 //   npx tsx scripts/sweep-standard.ts           # dry run
 //   npx tsx scripts/sweep-standard.ts --apply   # create/update issues and put them on Backlog
 //   --changes <file>  read the versions from a local standard-changes.md (before craft is pushed)
+//   --only <repo>     sweep one repo of repos.yml (owner/name, or just the name)
 import { readFileSync } from "node:fs";
 import { addToProject, dryRun, gh, ghJson, readYaml, requireProjectScope } from "./lib.ts";
 
@@ -50,7 +51,14 @@ if (!dryRun) {
 }
 
 let behind = 0;
-for (const repo of readYaml<string[]>("repos.yml")) {
+const onlyArg = process.argv.indexOf("--only");
+const only = onlyArg > 0 ? process.argv[onlyArg + 1] : null;
+const repos = readYaml<string[]>("repos.yml").filter((r) => !only || r === only || r.endsWith(`/${only}`));
+if (only && repos.length === 0) {
+  console.error(`${only} is not in repos.yml.`);
+  process.exit(1);
+}
+for (const repo of repos) {
   if (repo === STANDARD_REPO) continue;
   const agents = rawFile(repo, "AGENTS.md");
   const version = Number(agents?.match(/Knowledge standard: craft v(\d+)/)?.[1] ?? 0);
@@ -70,7 +78,8 @@ for (const repo of readYaml<string[]>("repos.yml")) {
   ].join("\n");
 
   const open = ghJson<{ number: number; title: string; url: string }[]>([
-    "issue", "list", "--repo", repo, "--state", "open", "--search", `"${TITLE_PREFIX}" in:title`, "--json", "number,title,url",
+    // No --search: GitHub's search index lags a fresh issue, and a quick rerun would duplicate it.
+    "issue", "list", "--repo", repo, "--state", "open", "--limit", "1000", "--json", "number,title,url",
   ]).find((i) => i.title.startsWith(TITLE_PREFIX));
 
   if (open) {
