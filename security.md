@@ -18,6 +18,9 @@ vulnerability.
   P2 (dry run plus confirmation) is the main guard.
 - **Untrusted input:** the `tasks.md` contents become issue titles and bodies. Pass them to
   `gh` as arguments or files, never by interpolating them into a shell string.
+- **Untrusted input, the standard sweep:** `sweep-standard` reads other repos' `AGENTS.md`
+  only for a version number, and builds issue bodies from craft's `standard-changes.md`; both go
+  to `gh` as arguments, never through a shell.
 - **Visibility:** this repo is public; the Backlog project is private, and the scripts never
   change that. If you make the project public, anything migrated from a private repo's
   `tasks.md` shows up on a public board, so check the dry run

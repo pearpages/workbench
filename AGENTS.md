@@ -53,6 +53,9 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
   `tasks.md` items into issues and add them to Backlog.
 - `npx tsx scripts/add-to-board.ts [--apply]`: put every open issue from `repos.yml` on
   Backlog (the sweep for repos without auto-add). Run it at the end of a session.
+- `npx tsx scripts/sweep-standard.ts [--changes <file>] [--apply]`: file or update one
+  "Upgrade to craft knowledge standard vN" issue in every repo that is behind craft's standard
+  (pearpages/craft ADR-0003). `--changes` reads a local `standard-changes.md` before craft is pushed.
 
 ## Pitfalls that have bitten before
 

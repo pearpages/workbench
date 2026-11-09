@@ -54,6 +54,13 @@ Every script is a **dry run** unless you add `--apply`, and is safe to run twice
    npx tsx scripts/add-to-board.ts --apply
    ```
 
+6. Keep every repo on the current [craft](https://github.com/pearpages/craft) knowledge standard.
+   After the standard changes, file one upgrade issue in each repo that is behind:
+
+   ```sh
+   npx tsx scripts/sweep-standard.ts --apply
+   ```
+
 Copy `.github/ISSUE_TEMPLATE/` into a repo to give it the bug, feature and chore forms.
 
 ## Steps only the GitHub website can do

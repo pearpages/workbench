@@ -24,6 +24,7 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 | `scripts/setup-project.ts` | Find or create Backlog (no custom fields: priority is a label, ADR 0003) |
 | `scripts/sync-labels.ts` | Apply `labels.yml` to every repo in `repos.yml` (create/update, never delete) |
 | `scripts/migrate-tasks.ts` | `tasks.md` → issues: each unchecked item outside Done becomes an issue with a hidden `<!-- backlog: tasks.md#hash -->` marker, so re-runs skip it |
+| `scripts/sweep-standard.ts` | The standard sweep: compares each repo's `Knowledge standard: craft vN` line (AGENTS.md) with the newest version in craft's `standard-changes.md`, and files or updates one upgrade issue per repo that is behind, on Backlog |
 | `scripts/add-to-board.ts` | The sweep: puts every open issue from `repos.yml` on Backlog, for repos without an auto-add workflow |
 
 ## Data flow
@@ -44,6 +45,10 @@ Status: labels, issue templates and the shared script helpers exist; the scripts
 5. **Sweep:** `add-to-board` lists the open issues of every repo in `repos.yml` and adds the
    ones that are not on Backlog yet. It covers the other repos, and issues opened with
    `gh issue create`. Run it at the end of a session.
+
+6. **Standard sweep:** `sweep-standard` reads craft's `standard-changes.md` and each repo's
+   `AGENTS.md` from GitHub (no local clones), then files one upgrade issue per repo that is
+   behind, or updates the open one. Run it after the standard changes.
 
 State lives on GitHub only. The repo itself holds only config.
 
