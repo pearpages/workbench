@@ -61,3 +61,6 @@ items into issues. It is published as `pearpages/workbench` so others can copy i
 
 - `node` fails with "No version is set for shim" → mise has no global Node version → this
   repo pins it in `mise.toml`; run `mise install`.
+- A rerun files a second copy of an issue → `gh issue list --search` doesn't see an issue created
+  seconds ago (the search index lags) → find existing issues by listing the open ones, as
+  `sweep-standard.ts` does.
